@@ -1,0 +1,19 @@
+{
+  "name": "job-search",
+  "version": "1.0.0",
+  "description": "job portal project",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/server.mjs",
+    "server": "nodemon server/server.mjs"
+  },
+  "author": "meghana",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.0"
+  }
+}
