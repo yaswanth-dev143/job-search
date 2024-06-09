@@ -13,7 +13,7 @@ import testroutes from './routes/testroutes.mjs';
 import authroutes from './routes/authroutes.mjs';
 import errormiddleware from './middlewares/errormiddleware.js';
 import userRoutes from './routes/userRoutes.js';
-import detect from 'detect-port';
+//import detect from 'detect-port';
 dotenv.config();
 //mongodb connection
 connectDB();
@@ -31,7 +31,7 @@ app.use('/api/v1/user', userRoutes);
 //validation middleware
 app.use(errormiddleware);
 //port
-const PORT = process.env.PORT || 4002;
+const PORT = process.env.PORT || 4001;
 //listen
 app.listen(PORT, () => {
     console.log(`node server running in ${process.env.DEV_MODE} mode on port no ${PORT}`.bgCyan.white);
