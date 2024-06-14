@@ -1,31 +1,32 @@
 import React, { useState } from "react";
 import first from "../assets/first.png";
-import { Link } from "react-router-dom";
+import { Await, Link } from "react-router-dom";
+import InputFrom from "../components/InputForm";
+import { useDispatch } from "react-redux";
+import { hideLoading, showLoading } from "../redux/features/alertSlice";
+import { axios } from "axios";
 
 const Register = () => {
-  // let [Fname, setFname] = useState("");
-  // let [Lname, setLname] = useState("");
-  // let [email, setemail] = useState("");
-  // let [password, setpassword] = useState("");
-  let [values, setvalues] = useState({
-    Fname: "",
-    Lname: "",
-    email: "",
-    password: "",
-  });
-  //Onclick action
-  let handleChange = (e) => {
-    let value = e.target.value;
-    setvalues({
-      ...values,
-      [e.target.name]: value,
-    });
-  };
+  let [Fname, setFname] = useState("");
+  let [Lname, setLname] = useState("");
+  let [email, setemail] = useState("");
+  let [password, setpassword] = useState("");
+
+  //hooks
+  const dispatch = useDispatch();
   //Form handling
   let handleSubmit = (e) => {
     e.preventDefault();
     try {
-      console.log(values);
+      console.log(Fname, Lname, email, password);
+      dispatch(showLoading());
+      const { data } = axios.post("/api/v1/auth/register", {
+        Fname,
+        Lname,
+        email,
+        password,
+      });
+      dispatch(hideLoading());
     } catch (error) {
       console.log(error);
     }
@@ -40,59 +41,39 @@ const Register = () => {
         <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md">
           <h1 className="text-2xl font-bold text-center mb-4">Register</h1>
           <form className="space-y-4" onSubmit={handleSubmit}>
-            <div className="flex flex-col">
-              <label htmlFor="email" className="text-sm mb-2">
-                First Name
-              </label>
-              <input
-                required
-                type="text"
-                name="Fname"
-                value={values.Fname}
-                onChange={handleChange}
-                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="email" className="text-sm mb-2">
-                Last Name
-              </label>
-              <input
-                required
-                type="text"
-                name="Lname"
-                value={values.Lname}
-                onChange={handleChange}
-                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="email" className="text-sm mb-2">
-                Email Address
-              </label>
-              <input
-                required
-                type="email"
-                name="email"
-                value={values.email}
-                onChange={handleChange}
-                autoComplete="off"
-                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="password" className="text-sm mb-2">
-                Password
-              </label>
-              <input
-                required
-                type="password"
-                name="password"
-                value={values.password}
-                onChange={handleChange}
-                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
-            </div>
+            <InputFrom
+              htmlFor="name"
+              labelText={"First Name"}
+              type={"text"}
+              value={Fname}
+              handleChange={(e) => setFname(e.target.value)}
+              name="FirstName"
+            />
+            <InputFrom
+              htmlFor="lastName"
+              labelText={"Last Name"}
+              type={"text"}
+              value={Lname}
+              handleChange={(e) => setLname(e.target.value)}
+              name="lastName"
+            />
+            <InputFrom
+              htmlFor="email"
+              labelText={"Email"}
+              type={"email"}
+              value={email}
+              handleChange={(e) => setemail(e.target.value)}
+              name="email"
+            />
+            <InputFrom
+              htmlFor="password"
+              labelText={"Password"}
+              type={"password"}
+              value={password}
+              handleChange={(e) => setpassword(e.target.value)}
+              name="password"
+            />
+
             <div className="flex items-center justify-between">
               <button
                 type="submit"

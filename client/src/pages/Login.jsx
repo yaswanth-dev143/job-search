@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import first from "../assets/first.png";
-import {} from "react-router-dom";
 
 const Login = () => {
   let [val, setval] = useState({
