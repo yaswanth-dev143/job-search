@@ -1,6 +1,6 @@
 import usermodel from "../models/usermodel.mjs";
 export const registercontroller = async (req, res, next) => {
-  const { name, email, password, lastName } = req.body;
+  const { name, email, password } = req.body;
   //validate
   if (!name) {
     next("name is required");
@@ -15,15 +15,44 @@ export const registercontroller = async (req, res, next) => {
   if (existinguser) {
     next("Email already register please login");
   }
-  const user = await usermodel.create({ name, email, password, lastName });
-  res.status(201).send({
-    success: true,
-    message: "user created successfully",
-    user: {
-      name: user.name,
-      lastName: user.lastname,
-      email: user.email,
-      location: user.location,
-    },
-  });
+  const user = await usermodel.create({ name, email, password });
+  //token
+  const token = user.createJWT();
+  res.status(201).send(
+    {
+      success: true,
+      message: "user created successfully",
+      user:{
+        name:user.name,
+        email:user.email,
+        location: user.location
+      },
+      token,
+    }
+  );
 };
+
+export const logiController = async (req,res,next) => {
+  const {email,password} = req.body
+  if(!email || !password){
+    next('please provide all the fields')
+  }
+  //find user by email
+  const user = await usermodel.findOne({email}).select("+password")
+  if(!user){
+    next('Invalid email or password')
+  }
+  //compare password
+  const isMatch = await user.comparePassword(password)
+  if(!isMatch){
+    next('Invalid email or password')
+  }
+  user.password = undefined
+  const token = user.createJWT()
+  res.status(200).send({
+    success:true,
+    message:'logged in successfully',
+    user,
+    token,
+  })
+}

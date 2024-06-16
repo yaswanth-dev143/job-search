@@ -1,11 +1,14 @@
 import mongoose from 'mongoose'
 import colors from 'colors'
-const connectDB=async()=>{
+const connectDB = async () =>{
     try{
-const  conn=await mongoose.connect('mongodb+srv://pepakayalameghana:saikishore123@cluster0.vvhefks.mongodb.net/jobportal')
-console.log(`connected to mongodb database ${mongoose.connection.host}`.bgMagenta.white);
+        const  conn = await mongoose.connect('mongodb+srv://pepakayalameghana:saikishore123@cluster0.vvhefks.mongodb.net/jobportal',{
+            serverSelectionTimeoutMS: 30000,
+            socketTimeoutMS: 45000,
+        })
+        console.log(`connected to mongodb database ${mongoose.connection.host}`.bgMagenta.white);
     }catch(error){
-        console.log(`mongoDB Error ${error}`.bgRed.white)
+        console.error(`mongoDB Error ${error}`.bgRed.white)
     }
-};
+}
 export default connectDB;
