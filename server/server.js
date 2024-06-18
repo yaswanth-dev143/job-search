@@ -6,11 +6,13 @@ import colors from "colors";
 import cors from "cors";
 import morgan from "morgan" ;
 //files imports
-import connectDB from "./config/db.mjs";
+import connectDB from "./config/db.js";
 //routes import
-import testroutes from "./routes/testroutes.mjs";
-import authroutes from "./routes/authroutes.mjs";
+import testroutes from "./routes/testroutes.js";
+import authroutes from "./routes/authroutes.js";
 import errormiddleware from "./middlewares/errormiddleware.js";
+import jobsRoutes from "./routes/jobsRoutes.js"
+import userRoutes from "./routes/userRoutes.js"
 
 dotenv.config();
 //mongodb connection
@@ -24,6 +26,8 @@ app.use(morgan("dev"));
 //routes
 app.use("/api/v1/test", testroutes);
 app.use("/api/v1/auth", authroutes);
+app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/job", jobsRoutes)
 
 //validation middleware
 app.use(errormiddleware);

@@ -1,4 +1,4 @@
-import usermodel from "../models/usermodel.mjs";
+import usermodel from "../models/usermodel.js";
 export const registercontroller = async (req, res, next) => {
   const { name, email, password } = req.body;
   //validate
