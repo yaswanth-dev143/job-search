@@ -1,6 +1,6 @@
 import express from "express"
 import {userAuth} from "../middlewares/authMiddleware.js"
-import { createJobController, deleteJobCpontroller, getAllJobsController, updateJobController } from "../controllers/jobsController.js"
+import { createJobController, deleteJobCpontroller, getAllJobsController, updateJobController,jobsStatsController } from "../controllers/jobsController.js"
 
 export const router = express.Router()
 
